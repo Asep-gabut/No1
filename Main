@@ -44,7 +44,7 @@ MainTab:CreateToggle({
             local completed = net:WaitForChild("RE/FishingCompleted")
             completed:FireServer()
 
-            task.wait(0.3)
+            task.wait()
         end
     end
 })
