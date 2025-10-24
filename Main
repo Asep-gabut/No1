@@ -26,12 +26,13 @@ local net = ReplicatedStorage:WaitForChild("Packages")
 local player     = Players.LocalPlayer
 local CHARGE_AMT = 1761133690.488849
 
+-- Toggle Mancing
 MainTab:CreateToggle({
     Name          = "Mancing Mang",
     CurrentValue  = false,
     Flag          = "AutoFishToggle",
     Callback      = function(on)
-        _G.FISH = on          -- global flag supaya mudah di-stop
+        _G.FISH = on
 
         while _G.FISH do
             net:WaitForChild("RF/ChargeFishingRod"):InvokeServer(CHARGE_AMT)
@@ -41,27 +42,27 @@ MainTab:CreateToggle({
             local pos  = root.Position
             net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(pos.X, pos.Z)
 
-             (RE/FishingCompleted)
             local completed = net:WaitForChild("RE/FishingCompleted")
             completed:FireServer()
 
             task.wait(0.3)
         end
-local AutoTab     = Window:CreateTab("Auto")
+    end
+})
+
+local AutoTab     = Window:CreateTab("Auto", nil)
 local AutoSection = AutoTab:CreateSection("🔁")
 
 AutoTab:CreateToggle({
     Name          = "Auto Sell Mang",
     CurrentValue  = false,
-    Flag          = "AutoToggle",
+    Flag          = "AutoSellToggle",
     Callback      = function(on)
-          _G.SELL = on
+        _G.SELL = on
 
-          while _G.SELL do
- net:WaitForChild("RF/SellAllItems"):InvokeServer()
- 
-    task.wait(600)
+        while _G.SELL do
+            net:WaitForChild("RF/SellAllItems"):InvokeServer()
+            task.wait(600)
+        end
     end
-})
-  end
 })
