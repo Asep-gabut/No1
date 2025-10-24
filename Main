@@ -74,15 +74,8 @@ AutoTab:CreateToggle({
         _G.WEATHER = on
 
         while _G.WEATHER do
-     
-local args = {
-	"Cloudy"
-}
-net:WaitForChild("RF/PurchaseWeatherEvent"):InvokeServer(unpack(args))
-local args = {
-	"Radiant"
-}
-net:WaitForChild("RF/PurchaseWeatherEvent"):InvokeServer(unpack(args))
+            net:WaitForChild("RF/PurchaseWeatherEvent"):InvokeServer("Cloudy")
+            net:WaitForChild("RF/PurchaseWeatherEvent"):InvokeServer("Radiant")
             task.wait(10)
         end
     end
