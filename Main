@@ -65,6 +65,7 @@ local fishingCompleted = game:GetService("ReplicatedStorage")
 while Fishing do
     fishingCompleted:FireServer()
     task.wait()  -- kecilkan atau sesuaikan
+ end
 end
 
 
