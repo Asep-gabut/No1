@@ -1,6 +1,3 @@
---////////////////////////////////////////
---  Lukman Hub – Auto-Fish + Re-Charge
---////////////////////////////////////////
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
 local Window = Rayfield:CreateWindow({
@@ -15,12 +12,9 @@ local Window = Rayfield:CreateWindow({
     }
 })
 
-local MainTab     = Window:CreateTab("💦😋😋😋", nil)
+local MainTab     = Window:CreateTab("Main", nil)
 local MainSection = MainTab:CreateSection("🎣")
 
---------------------------------------------------
--- Referensi cepat
---------------------------------------------------
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players           = game:GetService("Players")
 
@@ -32,32 +26,42 @@ local net = ReplicatedStorage:WaitForChild("Packages")
 local player     = Players.LocalPlayer
 local CHARGE_AMT = 1761133690.488849
 
---------------------------------------------------
--- Toggle utama
---------------------------------------------------
 MainTab:CreateToggle({
-    Name          = "Auto Fish + Re-Charge",
+    Name          = "Mancing Mang",
     CurrentValue  = false,
     Flag          = "AutoFishToggle",
     Callback      = function(on)
         _G.FISH = on          -- global flag supaya mudah di-stop
 
         while _G.FISH do
-            -- 1. Re-charge rod
             net:WaitForChild("RF/ChargeFishingRod"):InvokeServer(CHARGE_AMT)
 
-            -- 2. Ambil posisi terkini lalu request minigame
             local char = player.Character or player.CharacterAdded:Wait()
             local root = char:WaitForChild("HumanoidRootPart")
             local pos  = root.Position
             net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(pos.X, pos.Z)
 
-            -- 3. Tunggu event selesai (RE/FishingCompleted)
+             (RE/FishingCompleted)
             local completed = net:WaitForChild("RE/FishingCompleted")
             completed:FireServer()
 
-            -- 4. Jeda kecil hindari throttling
             task.wait(0.3)
         end
+local AutoTab     = Window:CreateTab("Auto")
+local AutoSection = AutoTab:CreateSection("🔁")
+
+AutoTab:CreateToggle({
+    Name          = "Auto Sell Mang",
+    CurrentValue  = false,
+    Flag          = "AutoToggle",
+    Callback      = function(on)
+          _G.SELL = on
+
+          while _G.SELL do
+ net:WaitForChild("RF/SellAllItems"):InvokeServer()
+ 
+    task.wait(600)
     end
+})
+  end
 })
