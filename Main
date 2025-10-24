@@ -83,7 +83,7 @@ local args = {
 	"Radiant"
 }
 net:WaitForChild("RF/PurchaseWeatherEvent"):InvokeServer(unpack(args))
- task.wait(10)
+            task.wait(10)
         end
     end
 })
