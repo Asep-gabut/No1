@@ -16,7 +16,7 @@ local Window = Rayfield:CreateWindow({
 
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = LukmanGanteng, -- Create a custom folder for your hub/game
+      FolderName = nill, -- Create a custom folder for your hub/game
       FileName = "Lukmangans"
    },
 
@@ -41,13 +41,30 @@ local Window = Rayfield:CreateWindow({
 local MainTab = Window:CreateTab("💦😋😋😋", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("🎣")
 
-local Toggle = Tab:CreateToggle({
+local Toggle = MainTab:CreateToggle({
    Name = "Start Fishing",
    CurrentValue = false,
-   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-   Callback = function(Value)
-   -- The function that takes place when the toggle is pressed
-   -- The variable (Value) is a boolean on whether the toggle is true or false
+   Flag = "Fishing", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(True)
+     Fishing = True
+     if True then
+        Mancing()
+     end
    end,
 })
+
+
+local function Mancing()
+local fishingCompleted = game:GetService("ReplicatedStorage")
+    :WaitForChild("Packages")
+    :WaitForChild("_Index")
+    :WaitForChild("sleitnick_net@0.2.0")
+    :WaitForChild("net")
+    :WaitForChild("RE/FishingCompleted")
+
+while Fishing do
+    fishingCompleted:FireServer()
+    task.wait()  -- kecilkan atau sesuaikan
+end
+
 
