@@ -24,7 +24,7 @@ local net = ReplicatedStorage:WaitForChild("Packages")
     :WaitForChild("net")
 
 local player     = Players.LocalPlayer
-local CHARGE_AMT = 0761133690.488849
+local CHARGE_AMT = 9999999999
 
 MainTab:CreateToggle({
     Name          = "Mancing Mang",
