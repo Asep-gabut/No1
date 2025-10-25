@@ -49,7 +49,7 @@ MainTab:CreateToggle({
     end
 })
 
-local Input = Tab:CreateInput({
+local Input = MainTab:CreateInput({
    Name = "Delay nya mang",
    CurrentValue = "",
    PlaceholderText = "Masukin Mang",
