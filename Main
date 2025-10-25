@@ -44,23 +44,9 @@ MainTab:CreateToggle({
             local completed = net:WaitForChild("RE/FishingCompleted")
             completed:FireServer()
 
-            task.wait(_G.MANCING_DELAY)
+            task.wait()
         end
     end
-})
-
-local Input = MainTab:CreateInput({
-   Name = "Delay nya mang",
-   CurrentValue = "",
-   PlaceholderText = "Masukin Mang",
-   RemoveTextAfterFocusLost = false,
-   Flag = "Setting Delay Mancing",
-   Callback = function(Text)
-        local num = tonumber(Text)
-        if num and num >= 0.01 then
-        _G.MANCING_DELAY = num
-     end
-   end
 })
 
 local Button = MainTab:CreateButton({
@@ -82,7 +68,7 @@ AutoTab:CreateToggle({
 
         while _G.SELL do
             net:WaitForChild("RF/SellAllItems"):InvokeServer()
-            task.wait(600)
+            task.wait(_G.SellDelay)
         end
     end
 })
@@ -97,7 +83,35 @@ AutoTab:CreateToggle({
         while _G.WEATHER do
             net:WaitForChild("RF/PurchaseWeatherEvent"):InvokeServer("Cloudy")
             net:WaitForChild("RF/PurchaseWeatherEvent"):InvokeServer("Radiant")
-            task.wait(10)
+            task.wait(_G.WeatherDelay)
         end
     end
+})
+
+local Input = AutoTab:CreateInput({
+   Name = "Delay nya mang",
+   CurrentValue = "",
+   PlaceholderText = "Masukin Mang",
+   RemoveTextAfterFocusLost = true,
+   Flag = "Setting Delay Sell",
+   Callback = function(Text)
+        local num = tonumber(Text)
+        if num and num >= 0.01 then
+        _G.SellDelay = num
+     end
+   end
+})
+
+local Input = AutoTab:CreateInput({
+   Name = "Delay nya mang",
+   CurrentValue = "",
+   PlaceholderText = "Masukin Mang",
+   RemoveTextAfterFocusLost = true,
+   Flag = "Setting Delay Weather",
+   Callback = function(Text)
+        local num = tonumber(Text)
+        if num and num >= 0.01 then
+        _G.WeatherDelay = num
+     end
+   end
 })
