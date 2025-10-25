@@ -60,7 +60,7 @@ local Input = MainTab:CreateInput({
         if num and num >= 0.01 then
         _G.MANCING_DELAY = num
      end
-   end,
+   end
 })
 
 local Button = MainTab:CreateButton({
