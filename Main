@@ -49,6 +49,13 @@ MainTab:CreateToggle({
     end
 })
 
+local Button = MainTab:CreateButton({
+   Name = "Button Example",
+   Callback = function()
+   net:WaitForChild("RF/CancelFishingInputs"):InvokeServer()
+   end,
+})
+
 local AutoTab     = Window:CreateTab("Auto", nil)
 local AutoSection = AutoTab:CreateSection("🔁")
 
