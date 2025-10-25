@@ -44,9 +44,23 @@ MainTab:CreateToggle({
             local completed = net:WaitForChild("RE/FishingCompleted")
             completed:FireServer()
 
-            task.wait()
+            task.wait(_G.MANCING_DELAY)
         end
     end
+})
+
+local Input = Tab:CreateInput({
+   Name = "Input Example",
+   CurrentValue = "",
+   PlaceholderText = "Input Placeholder",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Setting Delay Mancing",
+   Callback = function(Text)
+        local num = tonumber(Text)
+        if num and num >= 0.01 then
+        _G.MANCING_DELAY = num
+     end
+   end,
 })
 
 local Button = MainTab:CreateButton({
