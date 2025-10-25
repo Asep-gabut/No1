@@ -50,7 +50,7 @@ MainTab:CreateToggle({
 })
 
 local Button = MainTab:CreateButton({
-   Name = "Button Example",
+   Name = "Debug pancing",
    Callback = function()
    net:WaitForChild("RF/CancelFishingInputs"):InvokeServer()
    end,
