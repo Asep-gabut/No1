@@ -50,9 +50,9 @@ MainTab:CreateToggle({
 })
 
 local Input = Tab:CreateInput({
-   Name = "Input Example",
+   Name = "Delay nya mang",
    CurrentValue = "",
-   PlaceholderText = "Input Placeholder",
+   PlaceholderText = "Masukin Mang",
    RemoveTextAfterFocusLost = false,
    Flag = "Setting Delay Mancing",
    Callback = function(Text)
