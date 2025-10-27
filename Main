@@ -60,6 +60,7 @@ MainTab:CreateToggle({
            Lemper = on
          while Lemper do
            net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
+         task.wait()
        end
      end
 }) 
