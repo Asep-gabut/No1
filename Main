@@ -74,9 +74,7 @@ MainTab:CreateToggle({
 
         while _G.Reel do
 
-               local completed = net:WaitForChild("RE/FishingCompleted")
-
-                 completed:FireServer()
+                net:WaitForChild("RE/FishingCompleted"):FireServer()
 
               task.wait(_G.Reel)
         end
