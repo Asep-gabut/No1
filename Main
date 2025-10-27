@@ -35,7 +35,17 @@ MainTab:CreateToggle({
 
         while _G.FISH do
 
+local vim =
+game:GetService("VirtualInputManager")
+local button = game:GetService("Players").LocalPlayer.PlayerGui.HUD.MobileFishingButton
+local pos = button.AbsolutePosition
+local size = button.AbsoluteSize
+local x = pos.X + size.X / 1
+local y = pos.Y + size.Y / 1
 
+    pcall(function()
+        vim:SendMouseButtonEvent(x, y, 0, true, button, 1)
+        vim:SendMouseButtonEvent(x, y, 0, false, button, 1)
 
               task.wait()
         end
