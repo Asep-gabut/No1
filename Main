@@ -40,11 +40,9 @@ MainTab:CreateToggle({
             local root = char:WaitForChild("HumanoidRootPart")
             local pos  = root.Position
             net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(0, -1)
-
+              task.wait(_G.MancingDelay)
             local completed = net:WaitForChild("RE/FishingCompleted")
             completed:FireServer()
-
-            task.wait(_G.MancingDelay)
         end
     end
 })
