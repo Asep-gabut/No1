@@ -36,12 +36,12 @@ MainTab:CreateToggle({
         while _G.FISH do
             net:WaitForChild("RF/ChargeFishingRod"):InvokeServer(CHARGE_AMT)
 
-            local char = player.Character or player.CharacterAdded:Wait()
-            local root = char:WaitForChild("HumanoidRootPart")
-            local pos  = root.Position
-            net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(0, -1)
+              net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(0, -1)
+
               task.wait(_G.MancingDelay)
-            local completed = net:WaitForChild("RE/FishingCompleted")
+
+               local completed = net:WaitForChild("RE/FishingCompleted")
+
             completed:FireServer()
         end
     end
