@@ -6,8 +6,8 @@ local Window = Rayfield:CreateWindow({
     LoadingSubtitle = "by Lukman",
     ToggleUIKeybind = Enum.KeyCode.K,
     ConfigurationSaving = {
-        Enabled   = true,
-        FolderName= krnl,
+        Enabled   = false,
+        FolderName= nill,
         FileName  = "Lukmangans"
     }
 })
