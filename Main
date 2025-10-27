@@ -53,7 +53,7 @@ end)
 })
 
 MainTab:CreateToggle({
-    name = "Lempar Mang"
+    Name = "Lempar Mang",
     CurrentValue  = false,
     Flag          = "AutoLemperToggle",
     Callback      = function(on)
