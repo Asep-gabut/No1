@@ -52,6 +52,18 @@ end)
     end
 })
 
+MainTab:CreateToggle({
+    name = "Lempar Mang"
+    CurrentValue  = false,
+    Flag          = "AutoLemperToggle",
+    Callback      = function(on)
+           Lemper = on
+         while Lemper do
+           net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
+       end
+     end
+}) 
+
 local Button = MainTab:CreateButton({
    Name = "Debug pancing",
    Callback = function()
