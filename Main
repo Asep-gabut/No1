@@ -38,12 +38,23 @@ MainTab:CreateToggle({
 
               net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(0, -1, -9999999.99999)
 
-                wait (1.7)
+              task.wait()
+        end
+    end
+})
 
-net:WaitForChild("RE/FishingCompleted"):FireServer()
+MainTab:CreateToggle({
+    Name          = "Tarik Mang",
+    CurrentValue  = false,
+    Flag          = "AutoReelToggle",
+    Callback      = function(on)
+        _G.Reel = on
 
+        while _G.Reel do
 
-              task.wait(_G.MancingDelay)
+            net:WaitForChild("RE/FishingCompleted"):FireServer()
+
+              task.wait(_G.ReelDelay)
         end
     end
 })
@@ -53,15 +64,14 @@ local Input = MainTab:CreateInput({
    CurrentValue = "",
    PlaceholderText = "Masukin Mang",
    RemoveTextAfterFocusLost = false,
-   Flag = "Setting Delay Mancing",
+   Flag = "Setting Delay Reel",
    Callback = function(Text)
         local num = tonumber(Text)
         if num and num >= -1 then
-        _G.MancingDelay = num
+        _G.ReelDelay = num
      end
    end
 })
-
 
 local Button = MainTab:CreateButton({
    Name = "Debug pancing",
