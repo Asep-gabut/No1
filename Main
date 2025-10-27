@@ -25,13 +25,6 @@ local net = ReplicatedStorage:WaitForChild("Packages")
 
 local player     = Players.LocalPlayer
 local CHARGE_AMT = -999999999999.99999999999
-local vim =
-game:GetService("VirtualInputManager")
-local button = game:GetService("Players").LocalPlayer.PlayerGui.HUD.MobileFishingButton
-local pos = button.AbsolutePosition
-local size = button.AbsoluteSize
-local x = pos.X + size.X / 1
-local y = pos.Y + size.Y / 1
 
 MainTab:CreateToggle({
     Name          = "Mancing Mang",
@@ -41,6 +34,14 @@ MainTab:CreateToggle({
         _G.FISH = on
 
         while _G.FISH do
+
+local vim =
+game:GetService("VirtualInputManager")
+local button = game:GetService("Players").LocalPlayer.PlayerGui.HUD.MobileFishingButton
+local pos = button.AbsolutePosition
+local size = button.AbsoluteSize
+local x = pos.X + size.X / 1
+local y = pos.Y + size.Y / 1
 
     pcall(function()
         vim:SendMouseButtonEvent(x, y, 0, true, button, 1)
