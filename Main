@@ -39,10 +39,6 @@ MainTab:CreateToggle({
               net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(0, -1)
 
               task.wait(_G.MancingDelay)
-
-               local completed = net:WaitForChild("RE/FishingCompleted")
-
-            completed:FireServer()
         end
     end
 })
@@ -68,6 +64,39 @@ local Button = MainTab:CreateButton({
    net:WaitForChild("RF/CancelFishingInputs"):InvokeServer()
    end,
 })
+
+MainTab:CreateToggle({
+    Name          = "Mancing Mang",
+    CurrentValue  = false,
+    Flag          = "AutoReelToggle",
+    Callback      = function(on)
+          _G.Reel = on
+
+        while _G.Reel do
+
+               local completed = net:WaitForChild("RE/FishingCompleted")
+
+                 completed:FireServer()
+
+              task.wait(_G.Reel)
+        end
+    end
+})
+
+local Input = MainTab:CreateInput({
+   Name = "Delay nya mang",
+   CurrentValue = "",
+   PlaceholderText = "Masukin Mang",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Setting Delay Reel",
+   Callback = function(Text)
+        local num = tonumber(Text)
+        if num and num >= -1 then
+        _G.Reel = num
+     end
+   end
+})
+
 
 local AutoTab     = Window:CreateTab("Auto", nil)
 local AutoSection = AutoTab:CreateSection("🔁")
