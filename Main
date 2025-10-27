@@ -66,7 +66,7 @@ local Button = MainTab:CreateButton({
 })
 
 MainTab:CreateToggle({
-    Name          = "Mancing Mang",
+    Name          = "Tarik Mang",
     CurrentValue  = false,
     Flag          = "AutoReelToggle",
     Callback      = function(on)
@@ -76,7 +76,7 @@ MainTab:CreateToggle({
 
                 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
-              task.wait(_G.Reel)
+              task.wait(_G.ReelDelay)
         end
     end
 })
@@ -90,7 +90,7 @@ local Input = MainTab:CreateInput({
    Callback = function(Text)
         local num = tonumber(Text)
         if num and num >= -1 then
-        _G.Reel = num
+        _G.ReelDelay = num
      end
    end
 })
