@@ -57,8 +57,8 @@ MainTab:CreateToggle({
     CurrentValue  = false,
     Flag          = "AutoLemperToggle",
     Callback      = function(on)
-           Lemper = on
-         while Lemper do
+           _G.Lemper = on
+         while _G.Lemper do
            net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
          task.wait()
        end
