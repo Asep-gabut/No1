@@ -62,7 +62,7 @@ MainTab:CreateToggle({
 
 net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1, 0, 0)
 
-          task.wait(0.5)
+          task.wait(1)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
