@@ -56,10 +56,12 @@ MainTab:CreateToggle({
     CurrentValue  = false,
     Flag          = "AutoMancingV2Toggle",
     Callback      = function(on)
-           _G.Lemper = on
-         while _G.Lemper do
+           _G.FishV2 = on
+         while _G.FishV2 do
            net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
+
 net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(unpack(1, 0, 0))
+
 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
          task.wait()
