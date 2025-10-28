@@ -24,16 +24,15 @@ local net = ReplicatedStorage:WaitForChild("Packages")
     :WaitForChild("net")
 
 local player     = Players.LocalPlayer
-local CHARGE_AMT = -999999999999.99999999999
 
 MainTab:CreateToggle({
-    Name          = "Mancing Mang",
+    Name          = "MancingV1 Mang",
     CurrentValue  = false,
-    Flag          = "AutoFishToggle",
+    Flag          = "AutoFishV1Toggle",
     Callback      = function(on)
-        _G.FISH = on
+        _G.FISHV1 = on
 
-        while _G.FISH do
+        while _G.FISHV1 do
 
 local vim =
 game:GetService("VirtualInputManager")
@@ -53,13 +52,16 @@ end)
 })
 
 MainTab:CreateToggle({
-    Name = "Lempar Mang",
+    Name = "MancingV2 Mang",
     CurrentValue  = false,
-    Flag          = "AutoLemperToggle",
+    Flag          = "AutoMancingV2Toggle",
     Callback      = function(on)
            _G.Lemper = on
          while _G.Lemper do
            net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
+net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(unpack(1, 0, 0))
+net:WaitForChild("RE/FishingCompleted"):FireServer()
+
          task.wait()
        end
      end
