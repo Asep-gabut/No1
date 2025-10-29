@@ -61,11 +61,13 @@ while _G.FishV2 do
 
 pcall(function()
  return net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
+ end)
 
 wait(0.1)
 
  pcall(function()
  net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
+end)
 
 wait(0.4)
 
