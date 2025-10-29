@@ -63,13 +63,27 @@ net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
 
 net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1, 0, 9999999999999.9999999999999999)
 
-wait(1.2)
+wait(Mancingsik)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
  end
 end
-}) 
+})
+
+local Input = MainTab:CreateInput({
+   Name = "Delay nya mang",
+   CurrentValue = "",
+   PlaceholderText = "Masukin Mang",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Setting Delay Mancing",
+   Callback = function(Text)
+        local num = tonumber(Text)
+        if num and num >= 0.01 then
+        Mancingsik = num
+     end
+   end
+})
 
 local Button = MainTab:CreateButton({
    Name = "Debug pancing",
