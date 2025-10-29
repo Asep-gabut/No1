@@ -51,21 +51,35 @@ end)
     end
 })
 
+local function Tarik()
+while _G.FishV2 do
+
+task.wait(1.9)
+
+net:WaitForChild("RE/FishingCompleted"):FireServer()
+ end
+end
+
+local function Lempar()
+while _G.FishV2 do 
+ net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
+
+ net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1, 0, 0)
+
+ task.wait()
+ end
+end
+
+
 MainTab:CreateToggle({
     Name = "MancingV2 Mang",
     CurrentValue  = false,
     Flag          = "AutoMancingV2Toggle",
     Callback      = function(on)
            _G.FishV2 = on
-         while _G.FishV2 do
-           net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
-
-net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1, 0, 0)
-
-          task.wait(1)
-
-net:WaitForChild("RE/FishingCompleted"):FireServer()
-
+         if on then
+task.spawn(Lempar)
+task.spawn(Tarik)
        end
      end
 }) 
