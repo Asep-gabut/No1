@@ -59,15 +59,11 @@ MainTab:CreateToggle({
            _G.FishV2 = on
 while _G.FishV2 do
 
-net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
-
 net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
 
-wait(0.5)
+wait(0.3)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
-
-wait(0.1)
 
  end
 end
