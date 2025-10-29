@@ -63,13 +63,26 @@ net:WaitForChild("RF/ChargeFishingRod"):InvokeServer(-999999999.9999999999)
 
 net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
 
-wait(0.8)
+wait(1.2)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
 net:WaitForChild("RF/ChargeFishingRod"):InvokeServer(-9999999999.999999999)
 
 net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
+
+net:WaitForChild("RF/ChargeFishingRod"):InvokeServer(-9999999999.999999999)
+
+net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
+
+net:WaitForChild("RF/ChargeFishingRod"):InvokeServer(-9999999999.999999999)
+
+net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
+
+net:WaitForChild("RF/ChargeFishingRod"):InvokeServer(-9999999999.999999999)
+
+net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
+
 
  end
 end
