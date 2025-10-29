@@ -51,15 +51,6 @@ end)
     end
 })
 
-local function (Lemper)
-while true do
-
- net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
-
- net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
- wait()
-end
-
 MainTab:CreateToggle({
     Name = "MancingV2 Mang",
     CurrentValue  = false,
@@ -68,11 +59,21 @@ MainTab:CreateToggle({
            _G.FishV2 = on
 while _G.FishV2 do
 
-task.spawn(Lemper)
+net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
+
+net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
+
+wait(1)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
-task.wait(0.6)
+net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
+
+net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
+
+net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
+
+net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1,0,0)
 
  end
 end
