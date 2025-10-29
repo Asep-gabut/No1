@@ -61,15 +61,14 @@ while _G.FishV2 do
 
 net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
 
+wait(0.1)
+
  net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1, 0, 0)
 
-wait(1)
+wait(0.4)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
-net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
-
- net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1, 0, 0)
  end
 end
 }) 
