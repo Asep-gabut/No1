@@ -51,8 +51,8 @@ end)
     end
 })
 
-local function ()
-while _G.FishV2 do
+local function (Lemper)
+while true do
 
  net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
 
@@ -67,6 +67,8 @@ MainTab:CreateToggle({
     Callback      = function(on)
            _G.FishV2 = on
 while _G.FishV2 do
+
+task.spawn(Lemper)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
