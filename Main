@@ -54,7 +54,7 @@ end)
 local function Tarik()
 while _G.FishV2 do
 
-task.wait(1.9)
+task.wait(2.1)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
  end
