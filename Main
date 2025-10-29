@@ -63,7 +63,7 @@ net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
 
 net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1, 0, 9999999999999.9999999999999999)
 
-wait(1.21)
+wait(1.31)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
