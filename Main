@@ -67,13 +67,7 @@ wait(Mancingsik)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
-net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
-
-net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1, 0, 9999999999999.9999999999999999)
-
-net:WaitForChild("RF/ChargeFishingRod"):InvokeServer()
-
-net:WaitForChild("RF/RequestFishingMinigameStarted"):InvokeServer(1, 0, 9999999999999.9999999999999999)
+net:WaitForChild("RF/CancelFishingInputs"):InvokeServer()
 
  end
 end
