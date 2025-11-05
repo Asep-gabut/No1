@@ -67,8 +67,6 @@ wait(Mancingsik)
 
 net:WaitForChild("RE/FishingCompleted"):FireServer()
 
-net:WaitForChild("RF/CancelFishingInputs"):InvokeServer()
-
  end
 end
 })
