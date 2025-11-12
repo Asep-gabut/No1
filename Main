@@ -46,7 +46,7 @@ local y = pos.Y + size.Y / 1
         vim:SendMouseButtonEvent(x, y, 0, true, button, 1)
         vim:SendMouseButtonEvent(x, y, 0, false, button, 1)
 end)
-              task.wait()
+              task.wait(0.6)
         end
     end
 })
