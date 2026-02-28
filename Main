@@ -1,48 +1,50 @@
--- ReservedServer GUI - LocalScript
--- Place in: StarterPlayerScripts or StarterGui
-
+-- Quiet Server Finder - Executor Script
 local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
-local PLACE_ID = game.PlaceId
+local placeId = game.PlaceId
+local currentJobId = game.JobId
 
--- Detect mobile
 local isMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
+local W  = isMobile and 340 or 320
+local H  = isMobile and 300 or 270
+local TH = isMobile and 68 or 60
+local BH = isMobile and 65 or 55
+local FS_TITLE = isMobile and 20 or 16
+local FS_BODY  = isMobile and 15 or 13
+local FS_BTN   = isMobile and 18 or 15
+local CS = isMobile and 46 or 34
 
--- Dynamic sizing
-local FRAME_WIDTH = isMobile and 0.88 or 0.3
-local FRAME_HEIGHT = isMobile and 0.42 or 0.32
-local FONT_TITLE = isMobile and 22 or 16
-local FONT_BODY = isMobile and 17 or 13
-local FONT_BTN = isMobile and 20 or 15
-local TOPBAR_H = isMobile and 70 or 50
-local BTN_H = isMobile and 70 or 50
-
--- // GUI SETUP //
+-- // GUI //
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "PrivateServerGUI"
+ScreenGui.Name = "QuietServerGUI"
 ScreenGui.ResetOnSpawn = false
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.IgnoreGuiInset = true
-ScreenGui.Parent = player.PlayerGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- // MAIN FRAME //
+-- Executor safe parent
+if gethui then
+	ScreenGui.Parent = gethui()
+elseif syn and syn.protect_gui then
+	syn.protect_gui(ScreenGui)
+	ScreenGui.Parent = game:GetService("CoreGui")
+else
+	ScreenGui.Parent = game:GetService("CoreGui")
+end
+
 local MainFrame = Instance.new("Frame")
-MainFrame.Name = "MainFrame"
 MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-MainFrame.Size = UDim2.new(FRAME_WIDTH, 0, FRAME_HEIGHT, 0)
+MainFrame.Size = UDim2.new(0, W, 0, H)
 MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
 MainFrame.BorderSizePixel = 0
 MainFrame.ClipsDescendants = true
 MainFrame.Parent = ScreenGui
-
-local MainCorner = Instance.new("UICorner")
-MainCorner.CornerRadius = UDim.new(0, 20)
-MainCorner.Parent = MainFrame
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 18)
 
 -- Shadow
 local Shadow = Instance.new("ImageLabel")
@@ -50,151 +52,160 @@ Shadow.Size = UDim2.new(1, 60, 1, 60)
 Shadow.Position = UDim2.new(0, -30, 0, -30)
 Shadow.BackgroundTransparency = 1
 Shadow.Image = "rbxassetid://6014261993"
-Shadow.ImageColor3 = Color3.fromRGB(80, 60, 200)
-Shadow.ImageTransparency = 0.4
+Shadow.ImageColor3 = Color3.fromRGB(40, 160, 100)
+Shadow.ImageTransparency = 0.45
 Shadow.ScaleType = Enum.ScaleType.Slice
 Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
 Shadow.ZIndex = -1
 Shadow.Parent = MainFrame
 
--- // TOP BAR //
+-- Top Bar
 local TopBar = Instance.new("Frame")
-TopBar.Size = UDim2.new(1, 0, 0, TOPBAR_H)
-TopBar.BackgroundColor3 = Color3.fromRGB(25, 20, 50)
+TopBar.Size = UDim2.new(1, 0, 0, TH)
+TopBar.BackgroundColor3 = Color3.fromRGB(16, 22, 18)
 TopBar.BorderSizePixel = 0
 TopBar.Parent = MainFrame
-
-local TopCorner = Instance.new("UICorner")
-TopCorner.CornerRadius = UDim.new(0, 20)
-TopCorner.Parent = TopBar
+Instance.new("UICorner", TopBar).CornerRadius = UDim.new(0, 18)
 
 local TopPatch = Instance.new("Frame")
 TopPatch.Size = UDim2.new(1, 0, 0.5, 0)
 TopPatch.Position = UDim2.new(0, 0, 0.5, 0)
-TopPatch.BackgroundColor3 = Color3.fromRGB(25, 20, 50)
+TopPatch.BackgroundColor3 = Color3.fromRGB(16, 22, 18)
 TopPatch.BorderSizePixel = 0
 TopPatch.Parent = TopBar
 
-local AccentLine = Instance.new("Frame")
-AccentLine.Size = UDim2.new(1, 0, 0, 3)
-AccentLine.Position = UDim2.new(0, 0, 1, -3)
-AccentLine.BackgroundColor3 = Color3.fromRGB(100, 80, 255)
-AccentLine.BorderSizePixel = 0
-AccentLine.Parent = TopBar
+local Accent = Instance.new("Frame")
+Accent.Size = UDim2.new(1, 0, 0, 3)
+Accent.Position = UDim2.new(0, 0, 1, -3)
+Accent.BackgroundColor3 = Color3.fromRGB(60, 200, 120)
+Accent.BorderSizePixel = 0
+Accent.Parent = TopBar
 
 local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, -80, 1, 0)
-Title.Position = UDim2.new(0, 18, 0, 0)
+Title.Size = UDim2.new(1, -70, 1, 0)
+Title.Position = UDim2.new(0, 16, 0, 0)
 Title.BackgroundTransparency = 1
-Title.Text = "🔒  Private Server"
+Title.Text = "🔍  Quiet Server Finder"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = FONT_TITLE
+Title.TextSize = FS_TITLE
 Title.Font = Enum.Font.GothamBold
 Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.Parent = TopBar
 
 local CloseBtn = Instance.new("TextButton")
-CloseBtn.Size = UDim2.new(0, isMobile and 50 or 36, 0, isMobile and 50 or 36)
-CloseBtn.Position = UDim2.new(1, isMobile and -60 or -44, 0.5, isMobile and -25 or -18)
+CloseBtn.AnchorPoint = Vector2.new(1, 0.5)
+CloseBtn.Size = UDim2.new(0, CS, 0, CS)
+CloseBtn.Position = UDim2.new(1, -12, 0.5, 0)
 CloseBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 80)
 CloseBtn.Text = "✕"
 CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseBtn.TextSize = isMobile and 22 or 16
+CloseBtn.TextSize = isMobile and 20 or 14
 CloseBtn.Font = Enum.Font.GothamBold
 CloseBtn.BorderSizePixel = 0
 CloseBtn.Parent = TopBar
+Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 8)
 
-local CloseCorner = Instance.new("UICorner")
-CloseCorner.CornerRadius = UDim.new(0, 10)
-CloseCorner.Parent = CloseBtn
-
--- // CONTENT //
+-- Content
 local Content = Instance.new("Frame")
-Content.Size = UDim2.new(1, 0, 1, -TOPBAR_H)
-Content.Position = UDim2.new(0, 0, 0, TOPBAR_H)
+Content.Size = UDim2.new(1, 0, 1, -TH)
+Content.Position = UDim2.new(0, 0, 0, TH)
 Content.BackgroundTransparency = 1
 Content.Parent = MainFrame
 
-local ContentLayout = Instance.new("UIListLayout")
-ContentLayout.Padding = UDim.new(0, 12)
-ContentLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-ContentLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-ContentLayout.Parent = Content
+local Layout = Instance.new("UIListLayout")
+Layout.Padding = UDim.new(0, 10)
+Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+Layout.VerticalAlignment = Enum.VerticalAlignment.Center
+Layout.Parent = Content
 
-local ContentPadding = Instance.new("UIPadding")
-ContentPadding.PaddingLeft = UDim.new(0, 18)
-ContentPadding.PaddingRight = UDim.new(0, 18)
-ContentPadding.PaddingTop = UDim.new(0, 14)
-ContentPadding.PaddingBottom = UDim.new(0, 14)
-ContentPadding.Parent = Content
+local Pad = Instance.new("UIPadding")
+Pad.PaddingLeft   = UDim.new(0, 16)
+Pad.PaddingRight  = UDim.new(0, 16)
+Pad.PaddingTop    = UDim.new(0, 14)
+Pad.PaddingBottom = UDim.new(0, 14)
+Pad.Parent = Content
 
 -- Description
 local Desc = Instance.new("TextLabel")
-Desc.Size = UDim2.new(1, 0, 0, isMobile and 50 or 36)
+Desc.Size = UDim2.new(1, 0, 0, isMobile and 40 or 32)
 Desc.BackgroundTransparency = 1
-Desc.Text = "Launch a private server — only you can join."
-Desc.TextColor3 = Color3.fromRGB(180, 170, 220)
-Desc.TextSize = FONT_BODY
+Desc.Text = "Otomatis cari server paling sepi lalu join."
+Desc.TextColor3 = Color3.fromRGB(160, 210, 180)
+Desc.TextSize = FS_BODY
 Desc.Font = Enum.Font.Gotham
 Desc.TextWrapped = true
-Desc.TextXAlignment = Enum.TextXAlignment.Left
+Desc.TextXAlignment = Enum.TextXAlignment.Center
 Desc.Parent = Content
 
--- Status Box
-local StatusBox = Instance.new("Frame")
-StatusBox.Size = UDim2.new(1, 0, 0, isMobile and 50 or 36)
-StatusBox.BackgroundColor3 = Color3.fromRGB(25, 22, 45)
-StatusBox.BorderSizePixel = 0
-StatusBox.Parent = Content
+-- Info Box
+local InfoBox = Instance.new("Frame")
+InfoBox.Size = UDim2.new(1, 0, 0, isMobile and 46 or 38)
+InfoBox.BackgroundColor3 = Color3.fromRGB(16, 26, 20)
+InfoBox.BorderSizePixel = 0
+InfoBox.Parent = Content
+Instance.new("UICorner", InfoBox).CornerRadius = UDim.new(0, 10)
 
-local SBCorner = Instance.new("UICorner")
-SBCorner.CornerRadius = UDim.new(0, 12)
-SBCorner.Parent = StatusBox
+local InfoText = Instance.new("TextLabel")
+InfoText.Size = UDim2.new(1, -20, 1, 0)
+InfoText.Position = UDim2.new(0, 10, 0, 0)
+InfoText.BackgroundTransparency = 1
+InfoText.Text = "⏳ Belum dicari..."
+InfoText.TextColor3 = Color3.fromRGB(160, 210, 180)
+InfoText.TextSize = FS_BODY
+InfoText.Font = Enum.Font.Gotham
+InfoText.TextXAlignment = Enum.TextXAlignment.Center
+InfoText.TextTruncate = Enum.TextTruncate.AtEnd
+InfoText.Parent = InfoBox
 
-local SBPadding = Instance.new("UIPadding")
-SBPadding.PaddingLeft = UDim.new(0, 12)
-SBPadding.Parent = StatusBox
+-- Find Button
+local FindBtn = Instance.new("TextButton")
+FindBtn.Size = UDim2.new(1, 0, 0, BH)
+FindBtn.BackgroundColor3 = Color3.fromRGB(40, 160, 100)
+FindBtn.Text = "🔍  Cari Server Sepi"
+FindBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+FindBtn.TextSize = FS_BTN
+FindBtn.Font = Enum.Font.GothamBold
+FindBtn.BorderSizePixel = 0
+FindBtn.AutoButtonColor = false
+FindBtn.Parent = Content
+Instance.new("UICorner", FindBtn).CornerRadius = UDim.new(0, 14)
 
-local StatusText = Instance.new("TextLabel")
-StatusText.Size = UDim2.new(1, -12, 1, 0)
-StatusText.BackgroundTransparency = 1
-StatusText.Text = "⏳ Awaiting launch..."
-StatusText.TextColor3 = Color3.fromRGB(180, 170, 220)
-StatusText.TextSize = FONT_BODY
-StatusText.Font = Enum.Font.Gotham
-StatusText.TextXAlignment = Enum.TextXAlignment.Left
-StatusText.TextTruncate = Enum.TextTruncate.AtEnd
-StatusText.Parent = StatusBox
-
--- Launch Button
-local LaunchBtn = Instance.new("TextButton")
-LaunchBtn.Size = UDim2.new(1, 0, 0, BTN_H)
-LaunchBtn.BackgroundColor3 = Color3.fromRGB(90, 65, 230)
-LaunchBtn.Text = "🚀  Launch Private Server"
-LaunchBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-LaunchBtn.TextSize = FONT_BTN
-LaunchBtn.Font = Enum.Font.GothamBold
-LaunchBtn.BorderSizePixel = 0
-LaunchBtn.AutoButtonColor = false
-LaunchBtn.Parent = Content
-
-local LaunchCorner = Instance.new("UICorner")
-LaunchCorner.CornerRadius = UDim.new(0, 14)
-LaunchCorner.Parent = LaunchBtn
-
-local LaunchGradient = Instance.new("UIGradient")
-LaunchGradient.Color = ColorSequence.new({
-	ColorSequenceKeypoint.new(0, Color3.fromRGB(130, 90, 255)),
-	ColorSequenceKeypoint.new(1, Color3.fromRGB(70, 50, 200))
+local FindGradient = Instance.new("UIGradient")
+FindGradient.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(60, 200, 130)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 130, 80))
 })
-LaunchGradient.Rotation = 90
-LaunchGradient.Parent = LaunchBtn
+FindGradient.Rotation = 90
+FindGradient.Parent = FindBtn
 
--- // DRAGGING //
+-- Join Button (hidden at start)
+local JoinBtn = Instance.new("TextButton")
+JoinBtn.Size = UDim2.new(1, 0, 0, BH)
+JoinBtn.BackgroundColor3 = Color3.fromRGB(60, 100, 200)
+JoinBtn.Text = "🚀  Join Sekarang"
+JoinBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+JoinBtn.TextSize = FS_BTN
+JoinBtn.Font = Enum.Font.GothamBold
+JoinBtn.BorderSizePixel = 0
+JoinBtn.AutoButtonColor = false
+JoinBtn.Visible = false
+JoinBtn.Parent = Content
+Instance.new("UICorner", JoinBtn).CornerRadius = UDim.new(0, 14)
+
+local JoinGradient = Instance.new("UIGradient")
+JoinGradient.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(90, 130, 255)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 80, 200))
+})
+JoinGradient.Rotation = 90
+JoinGradient.Parent = JoinBtn
+
+-- // DRAG //
 local dragging, dragInput, dragStart, startPos
 
 TopBar.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or
+		input.UserInputType == Enum.UserInputType.Touch then
 		dragging = true
 		dragStart = input.Position
 		startPos = MainFrame.Position
@@ -207,7 +218,8 @@ TopBar.InputBegan:Connect(function(input)
 end)
 
 TopBar.InputChanged:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+	if input.UserInputType == Enum.UserInputType.MouseMovement or
+		input.UserInputType == Enum.UserInputType.Touch then
 		dragInput = input
 	end
 end)
@@ -222,14 +234,6 @@ UserInputService.InputChanged:Connect(function(input)
 	end
 end)
 
--- // HOVER //
-LaunchBtn.MouseEnter:Connect(function()
-	TweenService:Create(LaunchBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(110, 85, 255)}):Play()
-end)
-LaunchBtn.MouseLeave:Connect(function()
-	TweenService:Create(LaunchBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(90, 65, 230)}):Play()
-end)
-
 -- // CLOSE //
 CloseBtn.MouseButton1Click:Connect(function()
 	TweenService:Create(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {
@@ -238,38 +242,93 @@ CloseBtn.MouseButton1Click:Connect(function()
 	task.delay(0.35, function() ScreenGui:Destroy() end)
 end)
 
--- // LAUNCH LOGIC //
-local launching = false
+-- // LOGIC //
+local foundJobId = nil
+local searching = false
 
-LaunchBtn.MouseButton1Click:Connect(function()
-	if launching then return end
-	launching = true
+local function fetchQuietServer()
+	local url = "https://games.roblox.com/v1/games/" .. placeId .. "/servers/Public?sortOrder=Asc&limit=100"
+	local ok, result = pcall(function()
+		return game:HttpGet(url)
+	end)
+	if not ok then return nil, "HttpGet gagal" end
 
-	LaunchBtn.Text = "⏳  Creating Server..."
-	LaunchBtn.BackgroundColor3 = Color3.fromRGB(60, 55, 120)
-	StatusText.Text = "🔄 Reserving server..."
-	StatusText.TextColor3 = Color3.fromRGB(255, 210, 80)
+	local data = HttpService:JSONDecode(result)
+	if not data or not data.data or #data.data == 0 then
+		return nil, "Tidak ada server ditemukan"
+	end
 
-	local success, result = pcall(function()
-		local code = TeleportService:ReserveServer(PLACE_ID)
-		StatusText.Text = "✅ Teleporting you in..."
-		StatusText.TextColor3 = Color3.fromRGB(80, 220, 120)
-		task.wait(0.8)
-		TeleportService:TeleportToPrivateServer(PLACE_ID, code, {player})
+	local best = nil
+	local lowest = math.huge
+
+	for _, server in ipairs(data.data) do
+		local count = server.playing or 0
+		local max   = server.maxPlayers or 1
+		local isCurrent = server.id == currentJobId
+		if not isCurrent and count < lowest and count < max then
+			lowest = count
+			best = server
+		end
+	end
+
+	if best then
+		return best.id, lowest
+	else
+		return nil, "Semua server penuh atau tidak valid"
+	end
+end
+
+FindBtn.MouseButton1Click:Connect(function()
+	if searching then return end
+	searching = true
+	JoinBtn.Visible = false
+	foundJobId = nil
+
+	FindBtn.Text = "⏳  Mencari..."
+	FindBtn.BackgroundColor3 = Color3.fromRGB(30, 100, 60)
+	InfoText.Text = "🔄 Mengambil daftar server..."
+	InfoText.TextColor3 = Color3.fromRGB(255, 210, 80)
+
+	task.spawn(function()
+		local jobId, info = fetchQuietServer()
+
+		if jobId then
+			foundJobId = jobId
+			InfoText.Text = "✅ Server ditemukan! " .. info .. " pemain"
+			InfoText.TextColor3 = Color3.fromRGB(80, 220, 120)
+			FindBtn.Text = "🔍  Cari Lagi"
+			FindBtn.BackgroundColor3 = Color3.fromRGB(40, 160, 100)
+			JoinBtn.Visible = true
+		else
+			InfoText.Text = "❌ " .. tostring(info)
+			InfoText.TextColor3 = Color3.fromRGB(255, 80, 80)
+			FindBtn.Text = "🔍  Cari Server Sepi"
+			FindBtn.BackgroundColor3 = Color3.fromRGB(40, 160, 100)
+		end
+
+		searching = false
+	end)
+end)
+
+JoinBtn.MouseButton1Click:Connect(function()
+	if not foundJobId then return end
+	InfoText.Text = "🚀 Joining server..."
+	InfoText.TextColor3 = Color3.fromRGB(100, 180, 255)
+	JoinBtn.Text = "⏳  Teleporting..."
+
+	local ok, err = pcall(function()
+		TeleportService:TeleportToPlaceInstance(placeId, foundJobId, player)
 	end)
 
-	if not success then
-		warn("FULL ERROR: " .. tostring(result))
-		StatusText.Text = "❌ Error — Check Console (F9)"
-		StatusText.TextColor3 = Color3.fromRGB(255, 80, 80)
-		LaunchBtn.Text = "🚀  Launch Private Server"
-		LaunchBtn.BackgroundColor3 = Color3.fromRGB(90, 65, 230)
-		launching = false
+	if not ok then
+		InfoText.Text = "❌ Gagal join: " .. tostring(err):sub(1, 35)
+		InfoText.TextColor3 = Color3.fromRGB(255, 80, 80)
+		JoinBtn.Text = "🚀  Join Sekarang"
 	end
 end)
 
--- // ENTRANCE ANIMATION //
+-- // ENTRANCE //
 MainFrame.Size = UDim2.new(0, 0, 0, 0)
 TweenService:Create(MainFrame, TweenInfo.new(0.45, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-	Size = UDim2.new(FRAME_WIDTH, 0, FRAME_HEIGHT, 0)
+	Size = UDim2.new(0, W, 0, H)
 }):Play()
